@@ -71,17 +71,15 @@ class ApiController : Controller() {
     fun update(call: HttpCall) {
 
         val id = call.longParam("id").orAbort()
-        val name = call.stringParam("name")
-        val markAsComplete = call.param("completed") != null
 
         Tasks.update {
-            it.name to name
-            it.completed to markAsComplete
+            if (call.stringParam("name") != null) { it.name to call.stringParam("name") }
+            if (call.param("completed") != null) { it.completed to call.param("completed").toString().toBoolean() }
             it.updatedAt to Instant.now()
             where {
                 it.id eq id
             }
+            call.acknowledge(202)
         }
-        call.acknowledge(202)
     }
 }

@@ -10,12 +10,20 @@ fun Router.addRoutes() = apply {
 
 private fun Router.apiRoutes() {
     // register API routes here
-   /* group("tasks") {
+    resources<ApiController>("tasks")
+
+    // Using resources above means we don't need to add the below
+    /*
+    group("tasks") {
+        get(ApiController::index)
         get(ApiController::show)
-        post(ApiController::add)
-        delete(ApiController::remove)
+        post(ApiController::store)
+        delete(ApiController::delete)
         patch(ApiController::update)
     }*/
-
-    resources<ApiController>("tasks")
 }
+
+
+
+
+
